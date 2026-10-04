@@ -1,0 +1,9 @@
+# CTranslate2 (offline models, via ct2rs) is built with the static MSVC
+# runtime; the whole program has to use the same one.
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]
+
+[env]
+# CMake ships with the Visual Studio Build Tools; ct2rs needs it to build
+# CTranslate2 and SentencePiece. Override with your own CMAKE if needed.
+CMAKE = { value = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe", force = false }

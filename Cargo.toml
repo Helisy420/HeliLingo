@@ -1,0 +1,80 @@
+[package]
+name = "helilingo"
+version = "2.0.0"
+edition = "2024"
+description = "Select text anywhere, double-tap Ctrl, read the translation."
+
+[features]
+# CTranslate2 with CUDA for the offline tiers 1–4 (needs the CUDA toolkit
+# at build time). Without it they run on the processor.
+offline-cuda = []
+
+[dependencies]
+eframe = { version = "0.36", default-features = false, features = ["glow", "default_fonts"] }
+egui = "0.36"
+egui_extras = { version = "0.36", features = ["svg"] }
+raw-window-handle = "0.6"
+tray-icon = "0.26"
+# native-tls = SChannel on Windows: no C toolchain needed, uses the OS cert store.
+reqwest = { version = "0.13", default-features = false, features = ["blocking", "json", "form", "query", "native-tls", "http2", "charset", "system-proxy", "gzip"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+lru = "0.18"
+resvg = "0.48"
+# Offline models. CTranslate2 (OPUS-MT, Argos, NLLB) built from source with
+# the Ruy CPU backend; SentencePiece tokenisation. Needs CMake (see
+# .cargo/config.toml) and the static CRT.
+ct2rs = { version = "0.10.1", default-features = false, features = ["ruy", "sentencepiece"] }
+# The same SentencePiece ct2rs builds; used directly for NLLB / Argos tokens.
+sentencepiece = "0.13"
+sha2 = "0.10"
+# Language guess for "auto" with the offline models (trigram, pure Rust).
+whatlang = "0.18"
+zip = { version = "2", default-features = false, features = ["deflate"] }
+
+[dependencies.windows]
+version = "0.62"
+features = [
+  "Win32_Foundation",
+  "Win32_Graphics_Gdi",
+  "Win32_Graphics_Dwm",
+  "Win32_Security",
+  "Win32_Security_Cryptography",
+  "Win32_System_Console",
+  "Win32_System_DataExchange",
+  "Win32_System_LibraryLoader",
+  "Win32_System_Memory",
+  "Win32_System_Ole",
+  "Win32_System_Registry",
+  "Win32_System_SystemInformation",
+  "Win32_System_Threading",
+  "Win32_System_WinRT",
+  "Win32_UI_Accessibility",
+  "Win32_UI_HiDpi",
+  "Win32_UI_Input_KeyboardAndMouse",
+  "Win32_UI_Shell",
+  "Win32_UI_WindowsAndMessaging",
+  "Foundation",
+  "Foundation_Collections",
+  "Media_Core",
+  "Media_Playback",
+  "Media_SpeechSynthesis",
+  "Storage_Streams",
+  # Main window: image decoding, OCR, file dialogs.
+  "Globalization",
+  "Graphics_Imaging",
+  "Media_Ocr",
+  "Win32_System_Com",
+  "Win32_UI_Shell_Common",
+  # Offline models: GPU/VRAM detection, free disk space, llama-server job.
+  "Win32_Graphics_Dxgi",
+  "Win32_Graphics_Dxgi_Common",
+  "Win32_Storage_FileSystem",
+  "Win32_System_JobObjects",
+]
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+strip = true
