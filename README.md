@@ -12,6 +12,7 @@
 <p align="center">
   <a href="README.ru.md">Русский</a> ·
   <a href="#features">Features</a> ·
+  <a href="#download">Download</a> ·
   <a href="#build-from-source">Build</a> ·
   <a href="#shortcuts">Shortcuts</a>
 </p>
@@ -58,6 +59,10 @@
   <img src="docs/screenshots/ultra.png" width="49%" alt="Ultra mode">
   <img src="docs/screenshots/settings-providers.png" width="49%" alt="Settings: providers">
 </p>
+
+## Download
+
+Get `helilingo.exe` from the [latest release](https://github.com/Helisy420/HeliLingo/releases/latest) and run it: one file, no installation needed. The app appears in the system tray; settings are in `%APPDATA%\HeliLingo`.
 
 ## Build from source
 

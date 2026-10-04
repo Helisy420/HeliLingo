@@ -12,6 +12,7 @@
 <p align="center">
   <a href="README.md">English</a> ·
   <a href="#возможности">Возможности</a> ·
+  <a href="#скачать">Скачать</a> ·
   <a href="#сборка-из-исходников">Сборка</a> ·
   <a href="#горячие-клавиши">Клавиши</a>
 </p>
@@ -58,6 +59,10 @@
   <img src="docs/screenshots/ultra.png" width="49%" alt="Режим «Ультра»">
   <img src="docs/screenshots/settings-providers.png" width="49%" alt="Настройки: провайдеры">
 </p>
+
+## Скачать
+
+Скачайте `helilingo.exe` из [последнего релиза](https://github.com/Helisy420/HeliLingo/releases/latest) и запустите: один файл, установка не нужна. Программа появится в трее; настройки лежат в `%APPDATA%\HeliLingo`.
 
 ## Сборка из исходников
 
