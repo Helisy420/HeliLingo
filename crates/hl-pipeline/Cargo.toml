@@ -1,0 +1,19 @@
+[package]
+name = "hl-pipeline"
+description = "HeliLingo translation pipeline: normalize, detect, cache, programmer mode, engine chain."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+hl-core = { workspace = true }
+hl-cache = { workspace = true }
+hl-detect = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+
+[dev-dependencies]
+hl-providers = { workspace = true }
+tokio = { workspace = true, features = ["test-util"] }
+futures-util = { workspace = true }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }

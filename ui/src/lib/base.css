@@ -1,0 +1,68 @@
+@import '@fontsource-variable/golos-text';
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font: var(--body);
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  user-select: none;
+  cursor: default;
+  overflow: hidden;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+  margin: 0;
+}
+
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: default;
+}
+
+:focus {
+  outline: none;
+}
+
+.h-page {
+  font: var(--heading-page);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.h-section {
+  font: var(--title-section);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.caption {
+  font: var(--caption);
+  color: var(--text-tertiary);
+}
+
+/* Thin scrollbars in the theme colours everywhere (no grey Windows bar). */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}

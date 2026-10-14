@@ -1,201 +1,154 @@
-<p align="center">
-  <img src="assets/brand/sun96.svg" width="96" height="96" alt="HeliLingo">
-</p>
+# HeliLingo 2.5
 
-<h1 align="center">HeliLingo</h1>
+**Select text anywhere. Double-tap Ctrl. Read the translation.**
+A fast translator for Windows that lives in the tray, streams the translation as it arrives, and can also run fully offline.
 
-<p align="center">
-  <b>Select text anywhere. Double-tap Ctrl. Read the translation.</b><br>
-  A fast, native translator for Windows that lives in the tray.
-</p>
+[Русский](README.ru.md) · [Features](#features) · [Shortcuts](#shortcuts) · [Providers](#providers) · [Offline models](#offline-models) · [Build](#build-from-source)
 
-<p align="center">
-  <a href="README.ru.md">Русский</a> ·
-  <a href="#features">Features</a> ·
-  <a href="#download">Download</a> ·
-  <a href="#build-from-source">Build</a> ·
-  <a href="#shortcuts">Shortcuts</a>
-</p>
+![Windows 10/11](https://img.shields.io/badge/Windows-10%20%7C%2011-7589db?style=flat-square)
+![Rust](https://img.shields.io/badge/Rust-2024-7589db?style=flat-square&logo=rust&logoColor=white)
+![Tauri 2](https://img.shields.io/badge/Tauri-2-7589db?style=flat-square)
+![Svelte 5](https://img.shields.io/badge/Svelte-5-7589db?style=flat-square)
+![Version](https://img.shields.io/badge/version-2.5.0-7589db?style=flat-square)
 
-<p align="center">
-  <img alt="Windows 10/11" src="https://img.shields.io/badge/Windows-10%20%7C%2011-5b6ee1?style=flat-square">
-  <img alt="Rust" src="https://img.shields.io/badge/Rust-2024-5b6ee1?style=flat-square&logo=rust&logoColor=white">
-  <img alt="egui" src="https://img.shields.io/badge/UI-egui-5b6ee1?style=flat-square">
-  <img alt="Version" src="https://img.shields.io/badge/version-2.0.0-5b6ee1?style=flat-square">
-</p>
-
-<p align="center">
-  <img src="docs/screenshots/word.png" width="300" alt="Word popup">
-  &nbsp;
-  <img src="docs/screenshots/sentence.png" width="400" alt="Sentence popup">
-</p>
-
----
+HeliLingo 2.5 is a rewrite. It is a single `helilingo.exe` with no installer. The
+2.0 source has been removed from this repository; it stays in the git history.
 
 ## Features
 
-- **Translate in place.** Select text in any app, double-tap **Ctrl**, and a popup appears next to it. It never takes focus, so your selection stays intact.
-- **Replace with one click.** Swap the selected text for its translation straight in the source app; your clipboard is restored afterwards. Or use **Ctrl+Alt+R** to translate and paste with no window at all.
-- **Pick a word or the whole sentence.** Click a word in the translation (Shift+click or drag for a run) and copy or replace just that part. Word popups show part of speech and alternatives.
-- **Quick window** (**Ctrl+Alt+T**): type and the translation appears as you type.
-- **Ultra mode** (**Ctrl+Alt+U**): a selection in several languages is split into fragments, each one detected and translated separately.
-- **Images and screen areas.** Translate text in a picture, a screen area, a window or the whole monitor via Windows OCR.
-- **Several providers with fallback.** Google and Yandex work without keys; Bing (Azure) and DeepL with your keys. If one fails, the next takes over.
-- **Offline models.** OPUS-MT, Argos, NLLB-200 (600M / 1.3B) and TranslateGemma (4B / 12B) run on your PC, on the processor or the graphics card.
-- **Programmer mode.** In source code, only string literals and comments are translated; the code stays byte for byte.
-- **History, statistics, glossary**, Wikipedia summaries, text-to-speech, Russian and English interface.
-- **Private by design.** API keys are encrypted with Windows DPAPI; history and statistics stay on your PC and can be turned off.
+- **Translate in place.** Select text in any app and double-tap **Ctrl**. A bubble
+  appears next to the selection. It never takes focus, so the selection stays intact.
+- **Streaming.** The text appears while the engine is still writing it.
+- **Quick window** (**Ctrl+Shift+L**): type, and the translation follows as you type.
+- **Translator window** (**Ctrl+Alt+T**): full text, history, alternatives.
+- **Ultra mode** (**Ctrl+Shift+S**): a selection in several languages is split into
+  fragments, each detected and translated on its own.
+- **Screen and image translation** (**Ctrl+Shift+O** for a screen area): text is read
+  with Windows OCR, or with an optional offline vision model.
+- **Replace or copy.** Swap the selected text for its translation in the source app,
+  or copy the translation.
+- **Word bubbles.** Dictionary entries grouped by part of speech, with alternatives
+  and a Wikipedia summary.
+- **Hybrid routing.** Several engines run in order. The first one that produces text
+  wins; if it fails midway, the next one takes over.
+- **Three themes** (navy, dark, light, or the system theme) and Russian or English
+  interface. Font: Golos Text, bundled.
+- **Programmer mode.** In source code only string literals and comments are
+  translated; the code stays byte for byte.
+- **Glossary** and **context**: earlier fragments help the translation stay
+  consistent.
+- **VS Code extension** (see [VS Code](#vs-code-extension)).
+- **Private by design.** API keys are stored in Windows Credential Manager. History
+  and statistics stay on your PC and can be turned off.
 
-<p align="center">
-  <img src="docs/screenshots/quick.png" width="600" alt="Quick window">
-</p>
+## Providers
 
-<p align="center">
-  <img src="docs/screenshots/main.png" width="49%" alt="Translator window">
-  <img src="docs/screenshots/main-image-result.png" width="49%" alt="Image translation">
-</p>
-
-<p align="center">
-  <img src="docs/screenshots/ultra.png" width="49%" alt="Ultra mode">
-  <img src="docs/screenshots/settings-providers.png" width="49%" alt="Settings: providers">
-</p>
-
-## Download
-
-Get `helilingo.exe` from the [latest release](https://github.com/Helisy420/HeliLingo/releases/latest) and run it: one file, no installation needed. The app appears in the system tray; settings are in `%APPDATA%\HeliLingo`.
-
-## Build from source
-
-### Requirements
-
-| What | Why |
+| Engine | Needs |
 |---|---|
-| **Windows 10 or 11**, x64 | The app uses Win32 and WinRT APIs |
-| **[Rust](https://rustup.rs/)** (stable, 1.85 or newer, MSVC toolchain) | Edition 2024 |
-| **[Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)** with *Desktop development with C++* | MSVC linker and CMake |
-| CMake | Builds CTranslate2 and SentencePiece for the offline models; the one bundled with the Build Tools is picked up automatically |
+| Google | nothing (keyless), or a Cloud key |
+| Yandex | nothing (keyless), or a Yandex Cloud key and folder id |
+| Bing | nothing (keyless), or an Azure key and region |
+| DeepL | a DeepL key (Free or Pro) |
+| OpenRouter | an OpenRouter key and a model you choose from the list |
+| Offline models | a one-time download, see below |
 
-If your CMake is somewhere else, point to it before building:
+Offline is **opt-in**. Until you turn offline models on in *Settings → Offline and
+acceleration*, nothing local is downloaded, started or loaded, and even then a model
+downloads only when you press **Download**.
 
-```bash
-set CMAKE=C:\path\to\cmake.exe
-```
+## Offline models
 
-### Build and run
+| Model | What it is | Download | Runs on |
+|---|---|---|---|
+| OPUS-MT | en ⇄ ru, fastest | ~157 MB | CPU, CTranslate2 |
+| Argos | en ⇄ ru packages | ~350 MB | CPU, CTranslate2 |
+| NLLB 600M / 1.3B | 200 languages (CC-BY-NC licence) | ~0.6 / ~1.3 GB | CPU or GPU, CTranslate2 |
+| TranslateGemma 4B / 12B | LLM translation with context and glossary | 2.3 / 6.8 GB | CPU or GPU, llama.cpp |
+| Granite Vision 4.1 | reads text from screenshots (English-trained) | 3.0 GB + runtime | llama.cpp |
 
-```bash
-git clone https://github.com/Helisy420/HeliLingo.git
-cd HeliLingo
-cargo build --release
-```
-
-The result is `target\release\helilingo.exe`: a single file, statically linked, no runtime needed. The first build takes a while because CTranslate2 is compiled from source.
-
-Optional: `cargo build --release --features offline-cuda` builds the offline models with CUDA (needs the CUDA toolkit).
+Models are pinned to Hugging Face commits and checked by SHA-256. Downloads resume
+after an interruption.
 
 ## Shortcuts
 
-All of them can be changed in Settings → Hotkeys. Any shortcut can also be a mouse side button (**Mouse 4** / **Mouse 5**).
+Defaults; every shortcut can be changed in *Settings → Hotkeys*.
 
-| Shortcut | Does |
+| Action | Shortcut |
 |---|---|
-| Double-tap **Ctrl** | Translate the selection in a popup next to it |
-| **Ctrl+Alt+T** | Quick window: translation as you type |
-| **Ctrl+Alt+U** | Ultra mode on the selection |
-| **Ctrl+Shift+S** | Translate a screen area or a window |
-| **Ctrl+Shift+A** | Translate the whole monitor under the cursor |
-| **Ctrl+Alt+Q** | Main translator window |
-| **Ctrl+Alt+R** | Translate and paste: the selection is replaced by its translation |
-| **Ctrl+C** twice | Translate what you just copied (like DeepL) |
+| Translate the selection | double **Ctrl** |
+| Quick window | **Ctrl+Shift+L** |
+| Translator window | **Ctrl+Alt+T** |
+| Ultra mode | **Ctrl+Shift+S** |
+| Translate a screen area | **Ctrl+Shift+O** |
+| Copy the translation | **Ctrl+Shift+C** |
+| Translate and paste over the selection | **Ctrl+Alt+R** |
 
-Shortcuts are ignored while a fullscreen app (games, videos) or an app from the ignore list is in the foreground.
+Mouse buttons 4 and 5 and chords with modifiers can be recorded as shortcuts too.
 
-### In the popup
+## VS Code extension
 
-| Popup | Copy | Replace |
-|---|---|---|
-| **Word** | Copy icon copies the picked translation; click any alternative to pick it | **Replace** swaps your selection for the picked translation |
-| **Sentence** | **Copy** copies everything; click or drag across words, then **Copy word(s)** | **Replace** uses the picked words, or the whole translation |
-| **Compact** | Click the translation | Shift+click the translation |
+The extension in [`vscode/`](vscode) talks to the running app over `127.0.0.1` with a
+secret key the app writes to `%LOCALAPPDATA%\HeliLingo\api.json`. It translates the
+selection or the comment and string under the cursor, and can replace a selection in
+place. The app's local API is on by default and can be switched off in *Settings →
+Context and modes*.
 
-`Esc` or a click elsewhere closes the popup; **Ctrl+C** while it is open copies the translation.
+## Updates
 
-## Translation providers
+The About page can check the latest version against `version.json` in this
+repository. The automatic update flow is built but **off** in this version; it is
+turned on once signed releases exist.
 
-Settings → Providers: drag to reorder, switch on and off. Each translation tries the enabled providers from the top and falls back to the next one on any error.
+## Build from source
 
-| Provider | Key |
-|---|---|
-| **Google** | Not needed (public web endpoints). Optional Google Cloud Translation key |
-| **Yandex** | Not needed. Optional Yandex Cloud key |
-| **Bing (Microsoft)** | Azure Translator key + region |
-| **DeepL** | API key (Free keys ending in `:fx` work too) |
-| **Offline models** | None: download them in Settings → Offline & acceleration |
+Requirements:
 
-Keys are stored only in `%APPDATA%\HeliLingo\settings.json`, encrypted with Windows DPAPI for your user account, and never logged.
-
-## Where data lives
-
-Everything is in `%APPDATA%\HeliLingo`:
-
-| File | Contents |
-|---|---|
-| `settings.json` | Settings and encrypted keys |
-| `history.json` | Translation history (up to 1000 entries, can be turned off) |
-| `stats.json` | Local usage statistics (can be turned off) |
-| `glossary.tsv` | Your glossary |
-
-Offline models go to `%LOCALAPPDATA%\HeliLingo\Models` (configurable).
-
-## For developers
+- Windows 10 or 11
+- Rust (edition 2024) with the MSVC toolchain
+- Node.js (for the Svelte UI)
+- CMake from the Visual Studio Build Tools (needed by `ct2rs`, the CTranslate2 binding).
+  Edit the path in [`.cargo/config.toml`](.cargo/config.toml) if yours differs.
+- Keep the build path short: CMake fails on very long target paths.
 
 ```bash
-cargo run -- --preview word        # also: sentence compact loading offline tray languages welcome
-cargo run -- --preview quick       # also: ultra wiki main main-image main-image-result main-history capture
-cargo run -- --preview settings-providers   # also: -hotkeys -stats -offline -modes -about
-cargo run -- --translate "effectively" ru --provider google
-cargo run -- --check deepl         # test the key from settings.json
+cd ui && npm install && npm run check && npm run build && cd ..
+cargo tauri build --no-bundle
 ```
 
-Previews never write history or statistics.
+The exe is written to `target/release/helilingo.exe`. For development checks use
+`cargo check`. Core crates can be tested without the UI, for example:
 
-<details>
-<summary>Project layout</summary>
-
-```
-src/
-  main.rs          entry point, CLI flags
-  app.rs           state machine: hook → selection → engine → popup; tray, windows
-  app/             Quick, Ultra, settings and main-window lifecycles
-  translate/       provider chain, Google / Yandex / Bing / DeepL, languages, cache
-  offline/         offline models: catalog, downloads, CTranslate2, llama.cpp
-  ui/              popup, tray menu, settings, intro, quick, ultra, main window, widgets
-  win/             Win32: hooks, clipboard, input, TTS, DPAPI, OCR, capture
-  settings.rs      persisted preferences
-  history.rs       translation history
-  stats.rs         usage statistics
-  code.rs          programmer mode
-  wiki.rs          Wikipedia summaries
-  i18n.rs          UI strings, Russian and English
-  theme.rs         colours, Montserrat, egui style
-assets/            icons, brand mark, Montserrat font
+```bash
+cargo run -p hl-pipeline --example translate -- "Hello" ru
 ```
 
-</details>
+## Layout
 
-## Known limits
+```
+crates/
+  hl-core/       types, hedged router, requests, text and code splitting, prompts, glossary
+  hl-cache/      memory cache (moka) + disk store (redb), history, statistics
+  hl-detect/     language detection (lingua, 10 languages) + script rules
+  hl-pipeline/   one translation end to end
+  hl-providers/  Google, Yandex, DeepL, Bing, OpenRouter (streaming), Wikipedia
+  hl-offline/    model catalog, downloads, CTranslate2 workers, llama-server, Granite
+  hl-docs/       file translation: DOCX / PPTX / XLSX / TXT / SRT
+  hl-win/        hooks, UI Automation and clipboard capture, focus, OCR, screen capture
+src-tauri/       the Tauri app: commands, windows, tray, plugins
+ui/              Svelte 5 + Vite + TypeScript frontend
+vscode/          VS Code extension
+docs/            design notes
+```
 
-- Windows only.
-- Around the synthetic copy and paste, only text, images, files, HTML and RTF are saved and restored on the clipboard.
-- In terminals the app uses Ctrl+Insert / Shift+Insert, so a running process is never interrupted.
-- Text-to-speech needs a Windows voice for the language; OCR needs the Windows language pack.
-- Only the dark theme for now.
+Developer notes are in [AGENTS.md](AGENTS.md) and the work list in [TODO.md](TODO.md).
 
-## Credits
+## Privacy
 
-- UI font: [Montserrat](https://fonts.google.com/specimen/Montserrat), SIL Open Font License (see [`assets/fonts/OFL.txt`](assets/fonts/OFL.txt)).
-- Built with [egui](https://github.com/emilk/egui), [CTranslate2](https://github.com/OpenNMT/CTranslate2) via [ct2rs](https://github.com/jkawamoto/ctranslate2-rs), and [llama.cpp](https://github.com/ggml-org/llama.cpp).
+- Translation requests go only to the engine you chose (and to the offline model
+  running on your PC).
+- Keys are kept in Windows Credential Manager, not in config files.
+- History and statistics are local and can be turned off.
 
-<p align="center">
-  Made by <a href="https://t.me/helisy">Helisy</a> · <a href="https://t.me/helisy420">Telegram</a> · <a href="https://github.com/Helisy420">GitHub</a>
-</p>
+## License
+
+MIT. See the license field in [`Cargo.toml`](Cargo.toml) and [`vscode/package.json`](vscode/package.json).

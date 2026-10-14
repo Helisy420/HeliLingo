@@ -1,0 +1,314 @@
+{
+  "name": "helilingo",
+  "displayName": "HeliLingo",
+  "description": "%description%",
+  "version": "2.5.0",
+  "publisher": "helisy420",
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Helisy420/HeliLingo"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "translate",
+    "translation",
+    "russian",
+    "comments",
+    "i18n"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "helilingo.translateSelection",
+        "title": "%cmd.translate%",
+        "category": "HeliLingo"
+      },
+      {
+        "command": "helilingo.replaceSelection",
+        "title": "%cmd.replace%",
+        "category": "HeliLingo"
+      },
+      {
+        "command": "helilingo.insertBelowSelection",
+        "title": "%cmd.insertBelow%",
+        "category": "HeliLingo"
+      },
+      {
+        "command": "helilingo.copySelection",
+        "title": "%cmd.copy%",
+        "category": "HeliLingo"
+      },
+      {
+        "command": "helilingo.menu",
+        "title": "%cmd.menu%",
+        "category": "HeliLingo"
+      },
+      {
+        "command": "helilingo.pickTarget",
+        "title": "%cmd.pickTarget%",
+        "category": "HeliLingo"
+      },
+      {
+        "command": "helilingo.pickEngine",
+        "title": "%cmd.pickEngine%",
+        "category": "HeliLingo"
+      },
+      {
+        "command": "helilingo.toggleHover",
+        "title": "%cmd.hover%",
+        "category": "HeliLingo"
+      },
+      {
+        "command": "helilingo.openSettings",
+        "title": "%cmd.settings%",
+        "category": "HeliLingo"
+      },
+      {
+        "command": "helilingo.openKeybindings",
+        "title": "%cmd.keys%",
+        "category": "HeliLingo"
+      },
+      {
+        "command": "helilingo.status",
+        "title": "%cmd.status%",
+        "category": "HeliLingo"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "helilingo.translateSelection",
+        "key": "ctrl+alt+h",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "helilingo.replaceSelection",
+        "key": "ctrl+alt+shift+h",
+        "when": "editorTextFocus && !editorReadonly"
+      },
+      {
+        "command": "helilingo.menu",
+        "key": "ctrl+alt+j",
+        "when": "editorTextFocus"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "helilingo.translateSelection",
+          "when": "editorHasSelection && config.helilingo.contextMenu",
+          "group": "9_helilingo@1"
+        },
+        {
+          "command": "helilingo.replaceSelection",
+          "when": "editorHasSelection && !editorReadonly && config.helilingo.contextMenu",
+          "group": "9_helilingo@2"
+        },
+        {
+          "command": "helilingo.insertBelowSelection",
+          "when": "editorHasSelection && !editorReadonly && config.helilingo.contextMenu",
+          "group": "9_helilingo@3"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "helilingo.replaceSelection",
+          "when": "editorIsOpen && !editorReadonly"
+        },
+        {
+          "command": "helilingo.insertBelowSelection",
+          "when": "editorIsOpen && !editorReadonly"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "HeliLingo",
+      "properties": {
+        "helilingo.targetLanguage": {
+          "type": "string",
+          "enum": [
+            "",
+            "ru",
+            "en",
+            "uk",
+            "de",
+            "fr",
+            "es",
+            "it",
+            "pt",
+            "pl",
+            "tr",
+            "ja",
+            "zh-CN",
+            "ko"
+          ],
+          "enumItemLabels": [
+            "%lang.app%",
+            "Русский",
+            "English",
+            "Українська",
+            "Deutsch",
+            "Français",
+            "Español",
+            "Italiano",
+            "Português",
+            "Polski",
+            "Türkçe",
+            "日本語",
+            "中文",
+            "한국어"
+          ],
+          "default": "",
+          "markdownDescription": "%cfg.target%",
+          "order": 1
+        },
+        "helilingo.sourceLanguage": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "ru",
+            "en",
+            "uk",
+            "de",
+            "fr",
+            "es",
+            "it",
+            "pt",
+            "pl",
+            "tr",
+            "ja",
+            "zh-CN",
+            "ko"
+          ],
+          "enumItemLabels": [
+            "%lang.auto%",
+            "Русский",
+            "English",
+            "Українська",
+            "Deutsch",
+            "Français",
+            "Español",
+            "Italiano",
+            "Português",
+            "Polski",
+            "Türkçe",
+            "日本語",
+            "中文",
+            "한국어"
+          ],
+          "default": "auto",
+          "description": "%cfg.source%",
+          "order": 2
+        },
+        "helilingo.engine": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "%cfg.engine%",
+          "order": 3
+        },
+        "helilingo.selection.action": {
+          "type": "string",
+          "enum": [
+            "hover",
+            "replace",
+            "insertBelow",
+            "copy",
+            "notification"
+          ],
+          "enumDescriptions": [
+            "%act.hover%",
+            "%act.replace%",
+            "%act.insertBelow%",
+            "%act.copy%",
+            "%act.notification%"
+          ],
+          "default": "hover",
+          "markdownDescription": "%cfg.action%",
+          "order": 4
+        },
+        "helilingo.insertBelow.asComment": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%cfg.asComment%",
+          "order": 5
+        },
+        "helilingo.hover.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "%cfg.hover%",
+          "order": 10
+        },
+        "helilingo.hover.strings": {
+          "type": "boolean",
+          "default": true,
+          "description": "%cfg.strings%",
+          "order": 11
+        },
+        "helilingo.hover.minLetters": {
+          "type": "number",
+          "default": 3,
+          "minimum": 1,
+          "maximum": 50,
+          "description": "%cfg.minLetters%",
+          "order": 12
+        },
+        "helilingo.hover.languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "markdownDescription": "%cfg.hoverLangs%",
+          "order": 13
+        },
+        "helilingo.hover.showDetails": {
+          "type": "boolean",
+          "default": true,
+          "description": "%cfg.footer%",
+          "order": 14
+        },
+        "helilingo.contextMenu": {
+          "type": "boolean",
+          "default": true,
+          "description": "%cfg.contextMenu%",
+          "order": 20
+        },
+        "helilingo.statusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "%cfg.statusBar%",
+          "order": 21
+        },
+        "helilingo.showErrors": {
+          "type": "boolean",
+          "default": true,
+          "description": "%cfg.errors%",
+          "order": 22
+        }
+      }
+    }
+  },
+  "scripts": {
+    "check": "tsc --noEmit -p .",
+    "build": "esbuild src/extension.ts --bundle --platform=node --format=cjs --target=node18 --external:vscode --outfile=dist/extension.js --minify",
+    "package": "npm run build && vsce package --no-dependencies --out helilingo.vsix",
+    "test": "esbuild test/comments.test.ts --bundle --platform=node --format=cjs --alias:vscode=./test/vscode-stub.ts --outfile=test/out.js --log-level=error && node test/out.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.0",
+    "@types/vscode": "1.90.0",
+    "@vscode/vsce": "4.0.0",
+    "esbuild": "0.28.2",
+    "typescript": "6.0.3"
+  }
+}

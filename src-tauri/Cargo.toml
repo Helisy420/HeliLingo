@@ -1,0 +1,32 @@
+[package]
+name = "helilingo"
+description = "Select text anywhere, press a shortcut, read the translation as it streams in."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[build-dependencies]
+tauri-build = { version = "2.7", features = [] }
+
+[dependencies]
+hl-core = { workspace = true }
+hl-cache = { workspace = true }
+hl-detect = { workspace = true }
+hl-pipeline = { workspace = true }
+hl-providers = { workspace = true }
+hl-offline = { workspace = true }
+hl-win = { workspace = true }
+hl-docs = { workspace = true }
+futures-util = { workspace = true }
+sha2 = "0.10"
+tauri = { version = "2.12", features = ["tray-icon", "image-png"] }
+tauri-plugin-global-shortcut = "2.4"
+tauri-plugin-single-instance = "2.5"
+tauri-plugin-autostart = "2.7"
+tokio = { workspace = true, features = ["net", "io-util"] }
+reqwest = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }

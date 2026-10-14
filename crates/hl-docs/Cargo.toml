@@ -1,0 +1,10 @@
+[package]
+name = "hl-docs"
+description = "HeliLingo documents: the text units of DOCX, PPTX, XLSX, TXT and SRT files, and the files rebuilt with their translations."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+zip = { version = "2", default-features = false, features = ["deflate"] }
+thiserror = { workspace = true }

@@ -1,0 +1,50 @@
+[package]
+name = "hl-offline"
+description = "HeliLingo offline models: catalog, downloads, CTranslate2 workers, llama-server."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[features]
+default = ["ct2"]
+# CTranslate2 (OPUS-MT, Argos, NLLB) built from source with the Ruy CPU
+# backend. Needs CMake (see .cargo/config.toml) and the static CRT.
+ct2 = ["dep:ct2rs", "dep:sentencepiece"]
+# CTranslate2 with CUDA (needs the CUDA toolkit at build time).
+cuda = ["ct2"]
+
+[dependencies]
+hl-core = { workspace = true }
+hl-detect = { workspace = true }
+reqwest = { workspace = true }
+eventsource-stream = { workspace = true }
+futures-util = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true, features = ["process", "io-util", "fs"] }
+tracing = { workspace = true }
+sha2 = "0.10"
+zip = { version = "2", default-features = false, features = ["deflate"] }
+base64 = "0.22"
+ct2rs = { version = "0.10.1", default-features = false, features = ["ruy", "sentencepiece"], optional = true }
+sentencepiece = { version = "0.13", optional = true }
+
+[target.'cfg(windows)'.dependencies.windows]
+version = "0.62"
+features = [
+  "Win32_Foundation",
+  "Win32_Security",
+  "Win32_System_Threading",
+  "Win32_Graphics_Dxgi",
+  "Win32_Graphics_Dxgi_Common",
+  "Win32_Storage_FileSystem",
+  "Win32_System_JobObjects",
+  "Win32_System_LibraryLoader",
+  "Win32_System_SystemInformation",
+  "Win32_System_Com",
+  "Win32_UI_Shell",
+  "Win32_UI_Shell_Common",
+]
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["test-util"] }

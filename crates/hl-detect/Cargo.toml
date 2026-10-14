@@ -1,0 +1,14 @@
+[package]
+name = "hl-detect"
+description = "HeliLingo language detection: lingua over the app's 38 languages, built in the background."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+lingua = { workspace = true, features = [
+  # 10 languages (about 5 MB each, embedded in the exe; decided 2026-10-14).
+  # Languages with their own script need no model.
+  "english", "russian", "ukrainian", "german", "french", "spanish", "italian", "portuguese",
+  "polish", "turkish",
+] }

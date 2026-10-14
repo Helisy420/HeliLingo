@@ -1,1 +1,5 @@
 /target
+/ui/node_modules
+/ui/dist
+/src-tauri/gen
+*.minisign.key
